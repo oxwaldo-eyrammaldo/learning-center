@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BrightPath Learning — Education Website (5 pages)</title>
+  <meta name="description" content="BrightPath Learning — modern education site (Home, About, Courses, Admissions, Contact). Single-file 5-page design using HTML5 semantic elements." />
+  <style>
+    /* -------------------- BASE & THEME -------------------- */
+    :root{
+      --bg:#f4fbff;
+      --card:#ffffff;
+      --accent:#1e88e5; /* bright educational blue */
+      --accent-2:#00b894; /* green accent */
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.8);
+      --shadow: 0 6px 18px rgba(30,40,60,0.08);
+      --radius:14px;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color-scheme: light;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#eef7fb);}
+    a{color:var(--accent);text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+
+    /* -------------------- NAVBAR (based on w3schools topnav style, improved) -------------------- */
+    .topnav{
+      background:linear-gradient(90deg,var(--card),#f7fbff);
+      position:sticky;top:0;z-index:30;backdrop-filter:blur(6px);
+      box-shadow: var(--shadow);
+    }
+    .topnav .container{
+      max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+    .brand h1{font-size:1rem;margin:0}
+
+    .topnav .links{display:flex;gap:8px;align-items:center}
+    .topnav a.tab{padding:10px 14px;border-radius:10px;font-weight:600;color:#0f1724}
+    .topnav a.tab:hover{background:rgba(30,136,229,0.08);color:var(--accent)}
+    .topnav a.active{background:linear-gradient(90deg, rgba(30,136,229,0.12), rgba(0,184,148,0.06));border:1px solid rgba(30,136,229,0.08)}
+
+    /* mobile menu button */
+    .icon{display:none;padding:8px;border-radius:8px;background:transparent;border:none}
+
+    @media (max-width:820px){
+      .topnav .links{display:none;flex-direction:column;width:100%;gap:6px;padding:10px 12px}
+      .topnav .links.show{display:flex}
+      .icon{display:inline-flex}
+      .topnav .container{flex-wrap:wrap}
+    }
+
+    /* -------------------- LAYOUT -------------------- */
+    .hero{max-width:1100px;margin:28px auto;padding:28px;background:var(--card);border-radius:16px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:center}
+    .hero h2{margin:0 0 8px 0;font-size:1.6rem}
+    .hero p{margin:0;color:var(--muted)}
+    .cta{margin-top:12px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;font-weight:700;border:0;cursor:pointer}
+
+    .grid{max-width:1100px;margin:22px auto;display:grid;grid-template-columns:1fr 320px;gap:20px}
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:var(--shadow)}
+    aside .card{position:sticky;top:90px}
+
+    footer{margin-top:28px;padding:18px 0;background:transparent;text-align:center;color:var(--muted)}
+
+    /* Table styles */
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #eef4fb;text-align:left}
+    th{font-weight:700;color:#0b1220}
+
+    /* Tiny helper */
+    .muted{color:var(--muted)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#f0f7ff;border:1px solid rgba(30,136,229,0.06);font-weight:600}
+
+    /* Page sections (simulate 5 pages) */
+    main section{display:none}
+    main section.active{display:block}
+
+    /* responsive */
+    @media (max-width:960px){
+      .hero{grid-template-columns:1fr;}
+      .grid{grid-template-columns:1fr}
+      .topnav .container{padding:10px}
+    }
+
+    /* small animation */
+    .fadein{animation:fade 420ms ease-out}
+    @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    /* form */
+    fieldset{border:1px dashed #e6f0fb;padding:12px;border-radius:10px}
+    legend{padding:0 8px;color:var(--accent);font-weight:700}
+
+  </style>
+</head>
+<body>
+  <header class="topnav" role="banner">
+    <div class="container">
+      <div class="brand">
+        <div class="logo" aria-hidden>BP</div>
+        <div>
+          <h1>BrightPath Learning</h1>
+          <div class="muted" style="font-size:12px">Explore. Learn. Succeed.</div>
+        </div>
+      </div>
+
+      <nav class="navigation" role="navigation" aria-label="Main navigation">
+        <button class="icon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+        <div class="links" id="myTopnav">
+          <a href="#home" class="tab" data-route="home">Home</a>
+          <a href="#about" class="tab" data-route="about">About</a>
+          <a href="#courses" class="tab" data-route="courses">Courses</a>
+          <a href="#admissions" class="tab" data-route="admissions">Admissions</a>
+          <a href="#contact" class="tab" data-route="contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="active fadein">
+      <div class="hero">
+        <article>
+          <h2>Welcome to BrightPath Learning</h2>
+          <p>We provide student-centred online and blended programs designed to build market-ready skills. Project-based learning, expert mentors, and career support.</p>
+          <div class="cta">
+            <button class="btn" onclick="navigate('courses')">Browse Courses</button>
+            <span style="margin-left:12px" class="pill">Accredited • Flexible • Scholarships</span>
+          </div>
+
+          <section aria-labelledby="features" style="margin-top:18px">
+            <h3 id="features" style="font-size:1rem;margin:0 0 8px 0">Why students choose us</h3>
+            <ul>
+              <li>Small cohort sizes and personalised feedback</li>
+              <li>Industry projects built into every module</li>
+              <li>Career services & interview prep</li>
+            </ul>
+          </section>
+        </article>
+
+        <aside>
+          <div class="card">
+            <figure>
+              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Students learning on laptops"/>
+              <figcaption class="muted" style="font-size:13px;margin-top:8px">Hands-on projects help you build a portfolio.</figcaption>
+            </figure>
+          </div>
+        </aside>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <h3 style="margin-top:0">Latest News</h3>
+          <article>
+            <h4 style="margin:6px 0">Scholarship for Data Science Cohort</h4>
+            <p class="muted">Limited need-based scholarships now open for our July intake. <time datetime="2026-07-01">Apply by July 1, 2026</time>.</p>
+          </article>
+          <hr />
+          <article>
+            <h4 style="margin:6px 0">New Micro-credential: AI Ethics</h4>
+            <p class="muted">A 4-week online short course covering responsible AI practices for practitioners.</p>
+          </article>
+        </section>
+
+        <aside>
+          <div class="card">
+            <h4 style="margin:0 0 8px 0">Quick Links</h4>
+            <nav aria-label="Quick links">
+              <ul>
+                <li><a href="#courses" onclick="navigate('courses')">All courses</a></li>
+                <li><a href="#admissions" onclick="navigate('admissions')">How to apply</a></li>
+                <li><a href="#contact" onclick="navigate('contact')">Request info</a></li>
+              </ul>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-labelledby="about-heading" class="fadein">
+      <div class="card" style="max-width:1100px;margin:28px auto;">
+        <header>
+          <h2 id="about-heading">About BrightPath</h2>
+          <p class="muted">A modern learning platform focused on employability and real-world skills.</p>
+        </header>
+
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px;align-items:start">
+          <article>
+            <p>Founded by educators and industry leaders, we blend pedagogy and practical projects. Our programs -- from short courses to diplomas -- include mentorship and career guidance.</p>
+
+            <section>
+              <h3>Core Values</h3>
+              <ol>
+                <li>Student-first design (personalised learning paths)</li>
+                <li>Project-based competency</li>
+                <li>Ethics and inclusion</li>
+              </ol>
+            </section>
+
+            <section>
+              <h3>Our Impact</h3>
+              <p>We track alumni outcomes and iterate on curriculum to ensure relevance. Below is a simple table of recent outcomes.</p>
+
+              <!-- TABLE: must exist in some pages -->
+              <table aria-describedby="outcomes-desc">
+                <caption id="outcomes-desc" style="text-align:left;padding-bottom:8px;font-weight:700">Alumni 12-month outcomes (sample)</caption>
+                <thead>
+                  <tr><th>Program</th><th>Employed</th><th>Further Study</th><th>Avg Salary (USD)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Data Science Diploma</td><td>72%</td><td>12%</td><td>$9,800</td></tr>
+                  <tr><td>Frontend Dev Micro</td><td>68%</td><td>18%</td><td>$6,200</td></tr>
+                  <tr><td>Business Analytics</td><td>65%</td><td>20%</td><td>$7,400</td></tr>
+                </tbody>
+              </table>
+            </section>
+          </article>
+
+          <aside>
+            <div class="card">
+              <h4 style="margin-top:0">Our Campus</h4>
+              <figure>
+                <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1200&auto=format&fit=crop&s=placeholder" alt="Campus or learning space"/>
+                <figcaption class="muted">Flexible study spaces and labs.</figcaption>
+              </figure>
+            </div>
+
+            <div class="card" style="margin-top:12px">
+              <h4>Affiliations</h4>
+              <ul>
+                <li>National Education Board</li>
+                <li>Industry Mentors Network</li>
+                <li>Accredited Partner Institutions</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSES -->
+    <section id="courses" aria-labelledby="courses-heading" class="fadein">
+      <div class="card" style="max-width:1100px;margin:28px auto;">
+        <header>
+          <h2 id="courses-heading">Courses & Programs</h2>
+          <p class="muted">Choose from short courses, micro-credentials and full diplomas.</p>
+        </header>
+
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:18px;align-items:start">
+          <article>
+            <section>
+              <h3>Featured Programs</h3>
+
+              <!-- Use semantic article for each course -->
+              <article class="card" style="margin-bottom:12px">
+                <h4 style="margin:6px 0">Data Science Diploma</h4>
+                <p class="muted">24 weeks • Part-time • Project capstone</p>
+                <p>Hands-on modules covering Python, statistics, machine learning and deployment.</p>
+                <p><strong>What you'll build:</strong></p>
+                <ul>
+                  <li>End-to-end predictive model</li>
+                  <li>Data pipeline using cloud services</li>
+                  <li>Final capstone showcased to employers</li>
+                </ul>
+              </article>
+
+              <article class="card" style="margin-bottom:12px">
+                <h4 style="margin:6px 0">Frontend Web Development (Micro)</h4>
+                <p class="muted">8 weeks • Live workshops</p>
+                <p>Modern HTML5, CSS, JS and accessibility best practices.</p>
+                <p><strong>Roadmap</strong></p>
+                <ol>
+                  <li>Foundations: HTML5 & semantics</li>
+                  <li>Styling: responsive CSS & components</li>
+                  <li>Interactivity: modern JS and tooling</li>
+                </ol>
+              </article>
+
+              <!-- Courses table for quick glance -->
+              <h3 style="margin-top:10px">All courses (at a glance)</h3>
+              <table>
+                <thead>
+                  <tr><th>Course</th><th>Length</th><th>Level</th><th>Fee</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Data Science Diploma</td><td>24wks</td><td>Advanced</td><td>$1,800</td></tr>
+                  <tr><td>Frontend Web Micro</td><td>8wks</td><td>Beginner</td><td>$350</td></tr>
+                  <tr><td>AI Ethics Short</td><td>4wks</td><td>Intro</td><td>$120</td></tr>
+                  <tr><td>Business Analytics</td><td>16wks</td><td>Intermediate</td><td>$900</td></tr>
+                </tbody>
+              </table>
+            </section>
+          </article>
+
+          <aside>
+            <div class="card">
+              <h4 style="margin-top:0">Upcoming Cohorts</h4>
+              <ul>
+                <li>Data Science — Sept 2026</li>
+                <li>Frontend — Oct 2026</li>
+                <li>AI Ethics — Rolling</li>
+              </ul>
+              <p style="margin-top:8px"><a href="#admissions" onclick="navigate('admissions')">How to apply →</a></p>
+            </div>
+
+            <div class="card" style="margin-top:12px">
+              <h4>Scholarships & Discounts</h4>
+              <p class="muted">Merit and need-based awards available. Contact admissions for eligibility.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMISSIONS -->
+    <section id="admissions" aria-labelledby="admissions-heading" class="fadein">
+      <div class="card" style="max-width:1100px;margin:28px auto;">
+        <header>
+          <h2 id="admissions-heading">Admissions & How to Apply</h2>
+          <p class="muted">Simple application process — most applicants are reviewed within 7 business days.</p>
+        </header>
+
+        <article style="margin-top:12px">
+          <h3>Application steps</h3>
+          <ol>
+            <li>Create an account & choose program</li>
+            <li>Upload transcripts & CV</li>
+            <li>Complete short assessment (if required)</li>
+            <li>Interview with program mentor</li>
+            <li>Receive offer & pay deposit</li>
+          </ol>
+
+          <section style="margin-top:12px">
+            <h3>Required documents</h3>
+            <ul>
+              <li>Passport / National ID</li>
+              <li>Previous certificates or transcripts</li>
+              <li>CV / résumé</li>
+              <li>Two references (optional)</li>
+            </ul>
+          </section>
+
+          <details style="margin-top:12px">
+            <summary>Scholarship FAQ</summary>
+            <p class="muted">Scholarships are awarded on merit and need. You can apply during the admissions form. Decisions are typically made within 2 weeks.</p>
+          </details>
+        </article>
+
+        <aside style="margin-top:12px">
+          <div class="card">
+            <h4>Contact Admissions</h4>
+            <address>
+              BrightPath Admissions<br />
+              12 Knowledge Ave, Accra<br />
+              <a href="tel:+233501234567">+233 50 123 4567</a><br />
+              <a href="mailto:admissions@brightpath.edu">admissions@brightpath.edu</a>
+            </address>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-labelledby="contact-heading" class="fadein">
+      <div class="card" style="max-width:1100px;margin:28px auto;">
+        <header>
+          <h2 id="contact-heading">Get in touch</h2>
+          <p class="muted">Questions about programs, partnerships or media — we'd love to hear from you.</p>
+        </header>
+
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:18px;align-items:start">
+          <article>
+            <form id="contactForm" onsubmit="submitForm(event)">
+              <fieldset>
+                <legend>Contact form</legend>
+                <label for="name">Full name</label><br />
+                <input id="name" name="name" type="text" placeholder="Your name" required style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef9;margin-top:6px" />
+                <div style="height:8px"></div>
+                <label for="email">Email</label><br />
+                <input id="email" name="email" type="email" placeholder="you@email.com" required style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef9;margin-top:6px" />
+                <div style="height:8px"></div>
+                <label for="program">Program of interest</label><br />
+                <select id="program" name="program" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef9;margin-top:6px">
+                  <option>Data Science Diploma</option>
+                  <option>Frontend Web Micro</option>
+                  <option>AI Ethics Short</option>
+                </select>
+                <div style="height:8px"></div>
+                <label for="message">Message</label><br />
+                <textarea id="message" name="message" rows="5" placeholder="Tell us a bit about your goals" style="width:100%;padding:8px;border-radius:8px;border:1px solid #e6eef9;margin-top:6px"></textarea>
+                <div style="height:8px"></div>
+                <button type="submit" class="btn">Send message</button>
+              </fieldset>
+            </form>
+
+            <div id="formResult" style="margin-top:10px"></div>
+          </article>
+
+          <aside>
+            <div class="card">
+              <h4 style="margin-top:0">Office Hours</h4>
+              <p class="muted">Mon — Fri: 9:00 — 17:00</p>
+              <h4 style="margin-bottom:6px">Follow us</h4>
+              <nav aria-label="social links">
+                <ul>
+                  <li><a href="#">Twitter</a></li>
+                  <li><a href="#">LinkedIn</a></li>
+                  <li><a href="#">YouTube</a></li>
+                </ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div style="max-width:1100px;margin:0 auto;padding:18px 12px;color:var(--muted)">
+      <small>© <time datetime="2025-12-02">2025</time> BrightPath Learning — All rights reserved. Designed with semantic HTML5.</small>
+    </div>
+  </footer>
+
+  <script>
+    // Simple SPA routing using hash. Keeps it single-file (5 "pages").
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const tabs = Array.from(document.querySelectorAll('.topnav a.tab'));
+
+    function setActive(route){
+      sections.forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(route) || sections[0];
+      target.classList.add('active');
+
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.route === route));
+      // close mobile menu if open
+      document.getElementById('myTopnav')?.classList.remove('show');
+    }
+
+    function navigate(route){
+      location.hash = route;
+      // fallback setActive will be handled by hashchange
+    }
+
+    function onHashChange(){
+      const r = location.hash.replace('#','') || 'home';
+      setActive(r);
+    }
+
+    window.addEventListener('hashchange', onHashChange);
+    // on load
+    onHashChange();
+
+    // Mobile menu toggle (style inspired by w3schools topnav)
+    function toggleMenu(){
+      const menu = document.getElementById('myTopnav');
+      menu.classList.toggle('show');
+    }
+
+    // Contact form handler (demo only)
+    function submitForm(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const program = document.getElementById('program').value;
+      const result = document.getElementById('formResult');
+      result.innerHTML = `<div style=\"padding:8px;background:#ecfdf5;border-radius:8px;border:1px solid #c6f6d5;\">Thanks <strong>${escapeHtml(name)}</strong> — we've received your message about <em>${escapeHtml(program)}</em>. Our team will contact you shortly.</div>`;
+      document.getElementById('contactForm').reset();
+    }
+
+    // tiny escape helper
+    function escapeHtml(s){ return String(s).replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
+
+    // Keyboard accessibility: left/right to change pages
+    window.addEventListener('keydown', (e) => {
+      if(['ArrowLeft','ArrowRight'].includes(e.key)){
+        const order = ['home','about','courses','admissions','contact'];
+        const current = location.hash.replace('#','') || 'home';
+        let idx = order.indexOf(current);
+        if(e.key === 'ArrowLeft') idx = (idx - 1 + order.length) % order.length; else idx = (idx + 1) % order.length;
+        navigate(order[idx]);
+      }
+    });
+
+  </script>
+</body>
+</html>
